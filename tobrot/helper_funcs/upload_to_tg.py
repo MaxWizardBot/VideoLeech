@@ -147,7 +147,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         tmp = await asyncio.create_subprocess_exec(*g_au, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         pro, cess = await tmp.communicate()
         gk_file = re.escape(file_upload)
-        print(gk_file)
+        LOGGER.info(gk_file)
         with open('filter.txt', 'w+') as filter:
             print(f"+ {gk_file}\n- *", file=filter)
             
@@ -155,23 +155,23 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gau_tam = await asyncio.create_subprocess_exec(*t_a_m, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         #os.remove("filter.txt")
         gau, tam = await gau_tam.communicate()
-        print(gau)
+        LOGGER.info(gau)
         gautam = gau.decode("utf-8")
-        print(gautam)
+        LOGGER.info(gautam)
         #os.remove("filter.txt")
         gauti = f"https://drive.google.com/file/d/{gautam}/view?usp=drivesdk"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gauti).group("url")
-        print(gau_link)
+        LOGGER.info(gau_link)
         #indexurl = f"{INDEX_LINK}/{file_upload}"
         #tam_link = requests.utils.requote_uri(indexurl)
         gjay = size(os.path.getsize(file_upload))
-        print(gjay)
+        LOGGER.info(gjay)
         button = []
         button.append([pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gau_link}")])
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{file_upload}"
             tam_link = requests.utils.requote_uri(indexurl)
-            print(tam_link)
+            LOGGER.info(tam_link)
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ IndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
@@ -181,13 +181,13 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         await del_it.delete()
     else:
         tt= os.path.join(destination, file_upload)
-        print(tt)
+        LOGGER.info(tt)
         t_am = ['rclone', 'copy', '--config=rclone.conf', f'/app/{file_upload}', 'DRIVE:'f'{tt}', '-P']
         tmp = await asyncio.create_subprocess_exec(*t_am, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         pro, cess = await tmp.communicate()
-        print(pro)
+        LOGGER.info(pro)
         g_file = re.escape(file_upload)
-        print(g_file)
+        LOGGER.info(g_file)
         with open('filter1.txt', 'w+') as filter1:
             print(f"+ {g_file}/\n- *", file=filter1)
             
@@ -195,24 +195,24 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         gau_tam = await asyncio.create_subprocess_exec(*g_a_u, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         #os.remove("filter1.txt")
         gau, tam = await gau_tam.communicate()
-        print(gau)
+        LOGGER.info(gau)
         gautam = gau.decode("utf-8")
-        print(gautam)
+        LOGGER.info(gautam)
         #os.remove("filter1.txt")
         gautii = f"https://drive.google.com/folderview?id={gautam}"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gautii).group("url")
-        print(gau_link)
+        LOGGER.info(gau_link)
         #indexurl = f"{INDEX_LINK}/{file_upload}/"
         #tam_link = requests.utils.requote_uri(indexurl)
         #print(tam_link)
         gjay = size(getFolderSize(file_upload))
-        print(gjay)
+        LOGGER.info(gjay)
         button = []
         button.append([pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gau_link}")])
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{file_upload}/"
             tam_link = requests.utils.requote_uri(indexurl)
-            print(tam_link)
+            LOGGER.info(tam_link)
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ IndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
