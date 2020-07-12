@@ -137,21 +137,24 @@ async def upload_to_tg(
 async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     del_it = await message.edit_text("🔊 Now Uploading to ☁️ Cloud!!!")
-    subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
+    #subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
     with open('rclone.conf', 'a', newline="\n") as fole:
         fole.write("[DRIVE]\n")
         fole.write(f"{RCLONE_CONFIG}")
     destination = f'{DESTINATION_FOLDER}'
     if os.path.isfile(file_upload):
-        tmp = await asyncio.create_subprocess_exec(['rclone', 'copy', '--config=rclone.conf', f'/app/{file_upload}', 'DRIVE:'f'{destination}', '-v'], stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        g_au = ['rclone', 'copy', '--config=rclone.conf', f'/app/{file_upload}', 'DRIVE:'f'{destination}', '-P']
+        tmp = await asyncio.create_subprocess_exec(*g_au, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         pro, cess = await tmp.communicate()
         gk_file = re.escape(file_upload)
         print(gk_file)
         with open('filter.txt', 'w+') as filter:
             print(f"+ {gk_file}\n- *", file=filter)
-        gau_tam = subprocess.Popen(['rclone', 'lsf', '--config=rclone.conf', '-F', 'i', "--filter-from=filter.txt", "--files-only", 'DRIVE:'f'{destination}'], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+            
+        t_a_m = ['rclone', 'lsf', '--config=rclone.conf', '-F', 'i', "--filter-from=filter.txt", "--files-only", 'DRIVE:'f'{destination}']
+        gau_tam = await asyncio.create_subprocess_exec(*t_a_m, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         #os.remove("filter.txt")
-        gau, tam = gau_tam.communicate()
+        gau, tam = await gau_tam.communicate()
         print(gau)
         gautam = gau.decode("utf-8")
         print(gautam)
@@ -179,16 +182,19 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
     else:
         tt= os.path.join(destination, file_upload)
         print(tt)
-        tmp = subprocess.Popen(['rclone', 'copy', '--config=rclone.conf', f'/app/{file_upload}', 'DRIVE:'f'{tt}', '-v'], stdout = subprocess.PIPE)
-        pro, cess = tmp.communicate()
+        t_am = ['rclone', 'copy', '--config=rclone.conf', f'/app/{file_upload}', 'DRIVE:'f'{tt}', '-P']
+        tmp = await asyncio.create_subprocess_exec(*t_am, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        pro, cess = await tmp.communicate()
         print(pro)
         g_file = re.escape(file_upload)
         print(g_file)
         with open('filter1.txt', 'w+') as filter1:
             print(f"+ {g_file}/\n- *", file=filter1)
-        gau_tam = subprocess.Popen(['rclone', 'lsf', '--config=rclone.conf', '-F', 'i', "--filter-from=filter1.txt", "--dirs-only", 'DRIVE:'f'{destination}'], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+            
+        g_a_u = ['rclone', 'lsf', '--config=rclone.conf', '-F', 'i', "--filter-from=filter1.txt", "--dirs-only", 'DRIVE:'f'{destination}']
+        gau_tam = await asyncio.create_subprocess_exec(*g_a_u, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
         #os.remove("filter1.txt")
-        gau, tam = gau_tam.communicate()
+        gau, tam = await gau_tam.communicate()
         print(gau)
         gautam = gau.decode("utf-8")
         print(gautam)
