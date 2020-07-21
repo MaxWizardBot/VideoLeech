@@ -16,7 +16,7 @@ from tobrot.plugins.status_message_fn import cancel_message_f
 
 async def button(bot, update: CallbackQuery):
     cb_data = update.data
-	try:
+    try:
         g = await AdminCheck(bot, update.message.chat.id, update.from_user.id)
         print(g)
     except:
