@@ -39,6 +39,14 @@ async def yt_playlist_downg(message, i_m_sefg):
     gau, tam = await gau_tam.communicate()
     LOGGER.info(gau.decode('utf-8'))
     LOGGER.info(tam.decode('utf-8'))
+    e_response = tam.decode().strip()
+    ad_string_to_replace = "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output."
+    if e_response and ad_string_to_replace in e_response:
+        error_message = e_response.replace(ad_string_to_replace, "")
+        await message.reply_text(
+            error_message
+        )
+        return False, None
     if os.path.exists('blame_my_knowledge.txt'):
         get_g = os.listdir(fol_der)
         print(get_g)
