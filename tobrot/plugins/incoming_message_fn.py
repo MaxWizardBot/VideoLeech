@@ -213,6 +213,8 @@ async def incoming_youtube_dl_f(client, message):
 async def g_yt_playlist(client, message):
     """ /pytdl command """
     i_m_sefg = await message.reply_text("Processing...you should wait🤗", quote=True)
+    print(message.reply_to_message)
+    print(message.reply_to_message.text)
     if len(message.command) > 1:
         if message.command[1] == "gdrive":
             with open('blame_my_knowledge.txt', 'w+') as gg:
