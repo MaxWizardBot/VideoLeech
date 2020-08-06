@@ -116,6 +116,10 @@
       "description": "fill with name u want to prefix the file name like ur channel username🙊, keep empty for do nothing, but add to ur config vars even without input.",
       "required": false
     }
+	"STRIP_FILE_NAMES":{
+	  "description": "Enter single or multiple texts separated by | symbol to remove from filename Ex: HDRIP|BRRIP ",
+      "required": false
+	}
   },
   "addons": [
   ],
