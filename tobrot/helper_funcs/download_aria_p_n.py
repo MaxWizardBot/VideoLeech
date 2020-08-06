@@ -207,7 +207,7 @@ async def call_apropriate_function(
             
     if STRIP_FILE_NAMES:
         striped_file_name = f"{to_upload_file}"
-        for fname in STRIP_FILE_NAMES.split("|")
+        for fname in STRIP_FILE_NAMES.split("|"):
             striped_file_name=striped_file_name.replace(fname,"").strip()
         os.rename(to_upload_file, striped_file_name)
         to_upload_file = striped_file_name
