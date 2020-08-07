@@ -24,7 +24,8 @@ from tobrot import (
     AUTH_CHANNEL,
     DOWNLOAD_LOCATION,
     EDIT_SLEEP_TIME_OUT,
-    CUSTOM_FILE_NAME
+    CUSTOM_FILE_NAME,
+    STRIP_FILE_NAMES
 )
 from pyrogram import (
 	InlineKeyboardButton,
@@ -204,6 +205,13 @@ async def call_apropriate_function(
             to_upload_file = f"{CUSTOM_FILE_NAME}{to_upload_file}"
         else:
             to_upload_file = to_upload_file
+            
+    if STRIP_FILE_NAMES:
+        striped_file_name = f"{to_upload_file}"
+        for fname in STRIP_FILE_NAMES.split("|"):
+            striped_file_name=striped_file_name.replace(fname,"").strip()
+        os.rename(to_upload_file, striped_file_name)
+        to_upload_file = striped_file_name
 
     if cstom_file_name:
         os.rename(to_upload_file, cstom_file_name)
