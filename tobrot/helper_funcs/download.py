@@ -31,8 +31,6 @@ from tobrot.helper_funcs.create_compressed_archive import unzip_me, unrar_me, un
 
 async def down_load_media_f(client, message):
     user_id = message.from_user.id
-    LOGGER.info(message.caption)
-    LOGGER.info(message.text)
     print(user_id)
     mess_age = await message.reply_text("...", quote=True)
     if not os.path.isdir(DOWNLOAD_LOCATION):
@@ -64,16 +62,10 @@ async def down_load_media_f(client, message):
                 file_upload = await unrar_me(the_real_download_location_g)      
             elif message.command[1] == "untar":
                  file_upload = await untar_me(the_real_download_location_g)
-            elif message.command[1] == "renameToMsgText":
-                LOGGER.info(mess_age.caption)
-                LOGGER.info(mess_age.text)
-                LOGGER.info(message.caption)
-                LOGGER.info(message.text)
-
-                if message.text is not None:
-                    newFileName=os.path.join(DOWNLOAD_LOCATION,message.caption+Path(the_real_download_location_g).suffix)
+            elif message.command[1] == "rename":
+                if message.command[2] is not None:
+                    file_upload=os.path.join(DOWNLOAD_LOCATION,(" ".join(message.command[2:]))+Path(the_real_download_location_g).suffix)
                     os.rename(the_real_download_location_g,newFileName)
-                    file_upload=newFileName
                     await mess_age.edit_text(f"Renamed to <code>{file_upload}</code>")
 
             if file_upload is not None:
