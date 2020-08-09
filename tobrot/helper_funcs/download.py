@@ -56,7 +56,6 @@ async def down_load_media_f(client, message):
         out = gk.communicate()
         the_real_download_location_g = os.path.basename(the_real_download_location)
         if len(message.command) > 1:
-        if len(message.command) > 1:
             if message.command[1] == "unzip":
                 file_upload = await unzip_me(the_real_download_location_g)      
             elif message.command[1] == "unrar":
