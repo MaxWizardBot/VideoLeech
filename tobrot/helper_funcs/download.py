@@ -65,9 +65,8 @@ async def down_load_media_f(client, message):
             elif message.command[1] == "rename":
                 if message.command[2] is not None:
                     file_upload=os.path.join(DOWNLOAD_LOCATION,(" ".join(message.command[2:]))+Path(the_real_download_location_g).suffix)
-                    os.rename(the_real_download_location_g,newFileName)
+                    os.rename(the_real_download_location_g,file_upload)
                     await mess_age.edit_text(f"Renamed to <code>{file_upload}</code>")
-
             if file_upload is not None:
                     g_response = await upload_to_gdrive(file_upload, mess_age, message, user_id)
                     LOGGER.info(g_response)
