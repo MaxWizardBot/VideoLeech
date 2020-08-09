@@ -31,6 +31,8 @@ from tobrot.helper_funcs.create_compressed_archive import unzip_me, unrar_me, un
 
 async def down_load_media_f(client, message):
     user_id = message.from_user.id
+    LOGGER.info(message.caption)
+    LOGGER.info(message.text)
     print(user_id)
     mess_age = await message.reply_text("...", quote=True)
     if not os.path.isdir(DOWNLOAD_LOCATION):
@@ -68,7 +70,7 @@ async def down_load_media_f(client, message):
                 LOGGER.info(message.caption)
                 LOGGER.info(message.text)
 
-                if message.caption is not None:
+                if message.text is not None:
                     newFileName=os.path.join(DOWNLOAD_LOCATION,message.caption+Path(the_real_download_location_g).suffix)
                     os.rename(the_real_download_location_g,newFileName)
                     file_upload=newFileName
