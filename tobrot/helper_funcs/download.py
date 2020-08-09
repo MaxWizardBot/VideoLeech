@@ -63,8 +63,13 @@ async def down_load_media_f(client, message):
             elif message.command[1] == "untar":
                  file_upload = await untar_me(the_real_download_location_g)
             elif message.command[1] == "renameToMsgText":
-                if message.text is not None:
-                    newFileName=os.path.join(DOWNLOAD_LOCATION,mess_age.caption+Path(the_real_download_location_g).suffix)
+                LOGGER.info(mess_age.caption)
+                LOGGER.info(mess_age.text)
+                LOGGER.info(message.caption)
+                LOGGER.info(message.text)
+
+                if message.caption is not None:
+                    newFileName=os.path.join(DOWNLOAD_LOCATION,message.caption+Path(the_real_download_location_g).suffix)
                     os.rename(the_real_download_location_g,newFileName)
                     file_upload=newFileName
                     await mess_age.edit_text(f"Renamed to <code>{file_upload}</code>")
