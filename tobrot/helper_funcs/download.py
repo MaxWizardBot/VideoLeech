@@ -64,7 +64,7 @@ async def down_load_media_f(client, message):
                  file_upload = await untar_me(the_real_download_location_g)
             elif message.command[1] == "rename":
                 if message.command[2] is not None:
-                    file_upload=os.path.join(download_location,(" ".join(message.command[2:]))+Path(the_real_download_location_g).suffix)
+                    file_upload=(" ".join(message.command[2:]))+Path(the_real_download_location_g).suffix
                     os.rename(the_real_download_location_g,file_upload)
                     LOGGER.info(the_real_download_location_g)
                     LOGGER.info(file_upload)
