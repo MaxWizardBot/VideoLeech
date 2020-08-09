@@ -64,10 +64,10 @@ async def down_load_media_f(client, message):
                  file_upload = await untar_me(the_real_download_location_g)
             elif message.command[1] == "renameToMsgText":
                 if message.text is not None:
-                    newFileName=os.path.join(DOWNLOAD_LOCATION,mess_age.text+Path(the_real_download_location_g).suffix)
+                    newFileName=os.path.join(DOWNLOAD_LOCATION,mess_age.caption+Path(the_real_download_location_g).suffix)
                     os.rename(the_real_download_location_g,newFileName)
-                    the_real_download_location_g=newFileName
-                    await mess_age.edit_text(f"Renamed to <code>{the_real_download_location}</code>")
+                    file_upload=newFileName
+                    await mess_age.edit_text(f"Renamed to <code>{file_upload}</code>")
 
             if file_upload is not None:
                     g_response = await upload_to_gdrive(file_upload, mess_age, message, user_id)
