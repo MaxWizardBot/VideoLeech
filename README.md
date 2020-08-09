@@ -27,7 +27,9 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
 
 ### The Easy Way (Fork this repo and tap on deploy button)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) #Revived
+
+Better buy a vps 😐 and follow [this](https://github.com/gautamajay52/TorrentLeech-Gdrive#process-to-run-this-bot-on-vps)
 
 ### The Legacy Way
 Simply clone the repository and run the main file:
@@ -69,7 +71,7 @@ class Config(Config):
 
 * `DESTINATION_FOLDER`: Name of your folder in ur respective drive where you want to upload the files using the bot.
 
-* `OWNER_ID`: ID of the bot owner, He/she can be able to access bot in bot only mode too.
+* `OWNER_ID`: ID of the bot owner, He/she can be abled to access bot in bot only mode too(private mode).
 
 ##### Set Rclone
 
@@ -147,7 +149,11 @@ and everythin except `[NAME]`
 
 * `YTDL_COMMAND`
 
+* `GLEECH_COMMAND`
+
 * `TELEGRAM_LEECH_COMMAND_G`
+
+* `PYTDL_COMMAND_G`
 
 * `UPLOAD_AS_DOC`: Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 
