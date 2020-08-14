@@ -25,7 +25,21 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
 
 ## installing...
 
-### The Easy Way (Fork this repo and tap on deploy button)
+### The Easy Way
+
+#### STEPS (I did this to avoid the use of same button multiple times)
+
+a)You have to fork this repo at first(Don't know how to🤔, Then google it😐)
+
+b)Find `app.jso`. 🧐
+
+c)Tap on that. 😬
+
+d)Tap to edit and just add `n` at last of name (Don't touch code🤦). ✍️
+
+e)It should look like `app.json`. 🎉
+
+f)Then tap 👇👇
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) #Revived
 
@@ -217,14 +231,16 @@ the file will be uploaded as `new.txt`.
 
 - Clone this repo:
 ```
-git clone https://github.com/gautamajay52/TorrentLeech-Gdrive 
-cd TorrentLeech-Gdrive
+git clone https://github.com/gautamajay52/TorrentLeech-Gdrive torrentleech-gdrive
+cd torrentleech-gdrive
 ```
 
 - Install requirements
 For Debian based distros
 ```
 sudo apt install python3
+
+sudo snap install docker
 ```
 Install Docker by following the [official docker docs](https://docs.docker.com/engine/install/debian/)
 
@@ -242,11 +258,11 @@ sudo dockerd
 ```
 - Build Docker image:
 ```
-sudo docker build . -t TorrentLeech-Gdrive
+sudo docker build . -t torrentleech-gdrive
 ```
 - Run the image:
 ```
-sudo docker run TorrentLeech-Gdrive
+sudo docker run torrentleech-gdrive
 ```
 
 
