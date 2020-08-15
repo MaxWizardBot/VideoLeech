@@ -195,11 +195,11 @@ async def youtube_dl_call_back(bot, update):
                 for d in c:
                     e = os.path.join(a, d)
                     if(rename_text) is not None:
-                        print("BAJ FileName Before : "+e)
-                        absName=rename_text+Path(d).suffix
-                        os.rename(e,os.path.join(a,absName))
+                        print("BAJ G FileName Before : "+e)
+                        absName=os.path.join(a,rename_text+Path(d).suffix)
+                        os.rename(e,absName)
                         e=absName
-                        print("BAJ FileName After : "+e)
+                        print("BAJ G FileName After : "+e)
                     print(e)
                     gaut_am = os.path.basename(e)
                     print(gaut_am)

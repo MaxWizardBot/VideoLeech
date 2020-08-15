@@ -61,6 +61,14 @@ async def upload_to_tg(
     edit_media=False
 ):
     LOGGER.info(local_file_name)
+    txt=message.reply_to_message.text
+    if txt.find("rename")>0 and len(txt[txt.find("rename")+7:]) >0 and os.path.isfile(local_file_name):
+        rename_text=txt[txt.find("rename")+7:]
+        print("BAJ LocFileName Before : "+local_file_name)
+        absName=rename_text+Path(local_file_name).suffix
+        os.rename(local_file_name,os.path.join(os.path.dirname(local_file_name),absName))
+        local_file_name=absName
+        print("BAJ LocFileName After : "+local_file_name)
     base_file_name = os.path.basename(local_file_name)
     caption_str = ""
     caption_str += "<code>"
@@ -94,14 +102,6 @@ async def upload_to_tg(
                 edit_media
             )
     else:
-        txt=message.reply_to_message.text
-        if txt.find("rename")>0 and len(txt[txt.find("rename")+7:]) >0:
-            rename_text=txt[txt.find("rename")+7:]
-            print("BAJ LocFileName Before : "+local_file_name)
-            absName=rename_text+Path(local_file_name).suffix
-            os.rename(local_file_name,absName)
-            local_file_name=absName
-            print("BAJ LocFileName After : "+local_file_name)
         if os.path.getsize(local_file_name) > TG_MAX_FILE_SIZE:
             LOGGER.info("TODO")
             d_f_s = humanbytes(os.path.getsize(local_file_name))
