@@ -68,6 +68,7 @@ async def down_load_media_f(client, message):
                     os.rename(the_real_download_location_g,file_upload)
                     LOGGER.info(the_real_download_location_g)
                     LOGGER.info(file_upload)
+                    await asyncio.sleep(10)
                     await mess_age.edit_text(f"Renamed to <code>{file_upload}</code>")
             if file_upload is not None:
                     g_response = await upload_to_gdrive(file_upload, mess_age, message, user_id)

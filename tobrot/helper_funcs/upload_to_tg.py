@@ -28,6 +28,7 @@ from tobrot.helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
 from tobrot.helper_funcs.split_large_files import split_large_files
 from tobrot.helper_funcs.copy_similar_file import copy_file
 from requests.utils import requote_uri
+from pathlib import Path
 
 from tobrot import (
     TG_MAX_FILE_SIZE,
@@ -60,6 +61,14 @@ async def upload_to_tg(
     edit_media=False
 ):
     LOGGER.info(local_file_name)
+    txt=message.reply_to_message.text
+    if txt.find("rename")>0 and len(txt[txt.find("rename")+7:]) >0 and os.path.isfile(local_file_name):
+        rename_text=txt[txt.find("rename")+7:]
+        print("BAJ LocFileName Before : "+local_file_name)
+        absName=os.path.join(os.path.dirname(local_file_name),rename_text+Path(local_file_name).suffix)
+        os.rename(local_file_name,absName)
+        local_file_name=absName
+        print("BAJ LocFileName After : "+local_file_name)
     base_file_name = os.path.basename(local_file_name)
     caption_str = ""
     caption_str += "<code>"
