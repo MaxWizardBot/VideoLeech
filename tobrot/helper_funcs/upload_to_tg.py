@@ -62,18 +62,16 @@ async def upload_to_tg(
     edit_media=False
 ):
     LOGGER.info(local_file_name)
+    LOGGER.info(message.command)
     if message.reply_to_message is not None:
         txt=message.reply_to_message.text
-    else:
-        txt=" ".join(message.command)
-    print("BAJ txt "+txt)
-    if txt.find("rename")>0 and len(txt[txt.find("rename")+7:]) >0 and os.path.isfile(local_file_name):
-        rename_text=txt[txt.find("rename")+7:]
-        print("BAJ LocFileName Before : "+local_file_name)
-        absName=os.path.join(os.path.dirname(local_file_name),rename_text+Path(local_file_name).suffix)
-        os.rename(local_file_name,absName)
-        local_file_name=absName
-        print("BAJ LocFileName After : "+local_file_name)
+        if txt.find("rename")>0 and len(txt[txt.find("rename")+7:]) >0 and os.path.isfile(local_file_name):
+            rename_text=txt[txt.find("rename")+7:]
+            print("BAJ LocFileName Before : "+local_file_name)
+            absName=os.path.join(os.path.dirname(local_file_name),rename_text+Path(local_file_name).suffix)
+            os.rename(local_file_name,absName)
+            local_file_name=absName
+            print("BAJ LocFileName After : "+local_file_name)
     base_file_name = os.path.basename(local_file_name)
     caption_str = ""
     caption_str += "<code>"
