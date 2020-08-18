@@ -37,7 +37,8 @@ from tobrot import (
     DESTINATION_FOLDER,
     RCLONE_CONFIG,
     INDEX_LINK,
-    UPLOAD_AS_DOC
+    UPLOAD_AS_DOC,
+    CHANNEL_URL
 )
 
 from pyrogram import (
@@ -76,9 +77,9 @@ async def upload_to_tg(
     caption_str += "</code>"
     caption_str += "\n\nJoin and Support: "
     caption_str += "<a href='"
-    caption_str += "https://t.me/joinchat/AAAAAElErExrsYLj2BvzKw"
+    caption_str += f"{CHANNEL_URL}"
     caption_str += "'>"
-    caption_str += "https://t.me/joinchat/AAAAAElErExrsYLj2BvzKw"
+    caption_str += f"{CHANNEL_URL}"
     caption_str += "</a>"
     if os.path.isdir(local_file_name):
         directory_contents = os.listdir(local_file_name)
