@@ -4,6 +4,9 @@
 
 # the logging things
 import logging
+
+from tobrot.helper_funcs.upload_to_tg import upload_to_tg
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -30,6 +33,7 @@ from tobrot.helper_funcs.display_progress import progress_for_pyrogram
 from tobrot.helper_funcs.youtube_dl_extractor import extract_youtube_dl_formats
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.helper_funcs.ytplaylist import yt_playlist_downg
+from tobrot.helper_funcs.download import down_load_media_f
 
 async def incoming_purge_message_f(client, message):
     """/purge command"""
@@ -227,3 +231,20 @@ async def g_yt_playlist(client, message):
             await message.reply_text("Reply to youtube playlist link only 🙄")
     else:
             await message.reply_text("Rename Should not use with youtube playlist 🙄")
+
+
+async def rename_message_f(client, message):
+    txt = " ".join(message.command)
+    if txt.find("rename") > 0 and len(txt[txt.find("rename") + 7:]) > 0:
+        download_loc = await down_load_media_f(client, message)
+        response = {}
+        LOGGER.info(response)
+        user_id = message.from_user.id
+        print(user_id)
+        final_response = await upload_to_tg(
+            message,
+            download_loc,
+            user_id,
+            response
+        )
+        LOGGER.info(final_response)

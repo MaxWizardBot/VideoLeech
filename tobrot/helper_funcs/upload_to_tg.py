@@ -237,7 +237,8 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         await messa_ge.reply_text(f"🤖: Folder has been Uploaded successfully to {tt} in your Cloud <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}", reply_markup=button_markup)
         #await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         #await messa_ge.reply_text(f"""🤖: Folder has been Uploaded successfully to {tt} in your cloud 🤒\n\n☁️ Cloud URL:  <a href="{gau_link}">FolderLink</a>\nℹ️ Index Url:. <a href="{tam_link}">IndexLink</a>""")
-        shutil.rmtree(file_upload)
+        if not message.command[0] =="rename":
+            shutil.rmtree(file_upload)
         await del_it.delete()
         #os.remove('rclone.conf')
 
