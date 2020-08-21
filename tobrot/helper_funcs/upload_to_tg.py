@@ -202,7 +202,10 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             f"🤖: {file_upload} has been Uploaded successfully to your Cloud <a href='tg://user?id={g_id}'>🤒</a>\n📀 Size: {gjay}",
             reply_markup=button_markup)
         # await message.edit_text(f"""🤖: {file_upload} has been Uploaded successfully to your cloud 🤒\n\n☁️ Cloud URL:  <a href="{gau_link}">FileLink</a>\nℹ️ Direct URL:  <a href="{tam_link}">IndexLink</a>""")
-        os.remove(file_upload)
+        if not message.command[0] == "rename":
+            LOGGER.info('deleting the downloaded file after uploading to Gdrive beacuse it is not rename command')
+            os.remove(file_upload)
+        LOGGER.info('Not deleting the downloaded file Even after uploading to Gdrive beacuse it is rename command')
         await del_it.delete()
     else:
         tt = os.path.join(destination, file_upload)
