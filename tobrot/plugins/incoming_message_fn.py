@@ -235,7 +235,7 @@ async def g_yt_playlist(client, message):
 
 async def rename_message_f(client, message):
     txt = " ".join(message.command)
-    if txt.find("rename") > -1 and len(txt[txt.find("rename") + 7:]) > 0:
+    if txt.find("rename") > -1 and len(txt.strip()) > 7:
         download_loc = await down_load_media_f(client, message)
         response = {}
         LOGGER.info(response)
@@ -248,7 +248,5 @@ async def rename_message_f(client, message):
             response
         )
         LOGGER.info(final_response)
-        LOGGER.info('Going to remove File:'+f'/app/{download_loc}')
-        os.remove(f'/app/{download_loc}')
     else:
         message.reply_text("Command needs to have new file name to rename  Ex:/rename new_file_name")
