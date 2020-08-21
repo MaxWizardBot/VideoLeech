@@ -187,7 +187,7 @@ async def youtube_dl_call_back(bot, update):
         if len(g_txt) > 1:
             if g_txt[1] == "gdrive":
                 G_DRIVE = True
-        if txt.find("rename")>0 and len(txt[txt.find("rename")+7:]) >0:
+        if txt.find("rename")>-1 and len(txt[txt.find("rename")+7:]) >0:
             rename_text=txt[txt.find("rename")+7:]
         if G_DRIVE:
             for a, b, c in os.walk(tmp_directory_for_each_user):
