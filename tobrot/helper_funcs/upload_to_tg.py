@@ -64,7 +64,7 @@ async def upload_to_tg(
     LOGGER.info(local_file_name)
     LOGGER.info(message.command)
     if message.reply_to_message is not None:
-        txt=message.reply_to_message.text
+        txt=getattr(message.reply_to_message,'text','')
         if txt.find("rename")>-1 and len(txt[txt.find("rename")+7:]) >0 and os.path.isfile(local_file_name):
             rename_text=txt[txt.find("rename")+7:]
             print("BAJ LocFileName Before : "+local_file_name)
