@@ -4,6 +4,7 @@
 
 # the logging things
 import logging
+import shutil
 
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
 
@@ -243,10 +244,12 @@ async def rename_message_f(client, message):
         print(user_id)
         final_response = await upload_to_tg(
             message,
-            download_loc,
+            f'/app/{download_loc}',
             user_id,
             response
         )
         LOGGER.info(final_response)
+        LOGGER.info('Going to remove File:'+f'/app/{download_loc}')
+        shutil.rmtree(f'/app/{download_loc}')
     else:
         message.reply_text("Command needs to have new file name to rename  Ex:/rename new_file_name")
