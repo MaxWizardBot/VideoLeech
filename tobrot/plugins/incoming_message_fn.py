@@ -249,4 +249,4 @@ async def rename_message_f(client, message):
         )
         LOGGER.info(final_response)
     else:
-        message.reply_text("Command needs to have new file name to rename  Ex:/rename new_file_name")
+        await message.reply_text("Command needs to have new file name to rename  Ex:/rename new_file_name")
