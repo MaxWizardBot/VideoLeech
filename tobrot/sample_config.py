@@ -51,3 +51,4 @@ class Config(object):
     UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
     STRIP_FILE_NAMES = os.environ.get("STRIP_FILE_NAMES", "")
     PYTDL_COMMAND_G = os.environ.get("PYTDL_COMMAND_G", "pytdl")
+    LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
