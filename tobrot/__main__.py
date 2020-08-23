@@ -47,8 +47,8 @@ from tobrot.plugins.status_message_fn import (
     cancel_message_f,
     exec_message_f,
     upload_document_f,
-    upload_log_file
-)
+    upload_log_file,
+    upload_as_doc)
 from tobrot.plugins.call_back_button_handler import button
 from tobrot.plugins.custom_thumbnail import (
     save_thumb_nail,
@@ -197,4 +197,10 @@ if __name__ == "__main__" :
     )
     app.add_handler(clear_thumb_nail_handler)
     #
+
+    upload_as_doc_handler = MessageHandler(
+        upload_as_doc,
+        filters=Filters.command("uploadasdoc") & Filters.chat(chats=AUTH_CHANNEL)
+    )
+    app.add_handler(upload_as_doc_handler)
     app.run()

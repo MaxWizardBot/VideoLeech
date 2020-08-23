@@ -39,8 +39,8 @@ from tobrot import (
     RCLONE_CONFIG,
     INDEX_LINK,
     UPLOAD_AS_DOC,
-    CHANNEL_URL
-)
+    CHANNEL_URL,
+    user_specific_config)
 
 from pyrogram import (
     InputMediaDocument,
@@ -275,8 +275,13 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
         str(from_user) + ".jpg"
     )
     LOGGER.info(thumbnail_location)
+
+    dyna_user_config_upload_as_doc =False
+    for config in user_specific_config:
+        if config.user_id == from_user:
+            dyna_user_config_upload_as_doc=config.upload_as_doc
     #
-    if UPLOAD_AS_DOC.upper() == 'TRUE':
+    if UPLOAD_AS_DOC.upper() == 'TRUE' or dyna_user_config_upload_as_doc:
         thumb = None
         message_for_progress_display = message
         if not edit_media:

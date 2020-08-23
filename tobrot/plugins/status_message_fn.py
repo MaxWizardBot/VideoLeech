@@ -4,6 +4,9 @@
 
 # the logging things
 import logging
+
+from tobrot.UserDynaConfig import UserDynaConfig
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -23,9 +26,8 @@ from tobrot import (
     MAX_MESSAGE_LENGTH,
     AUTH_CHANNEL,
     BOT_START_TIME,
-    LOGGER
-)
-
+    LOGGER,
+    user_specific_config)
 
 from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.helper_funcs.download_aria_p_n import call_apropriate_function, aria_start
@@ -90,12 +92,13 @@ async def status_message_f(client, message):
     free = humanbytes(free)
 
     ms_g = f"<b>Bot Uptime</b>: <code>{currentTime}</code>\n" \
-        f"<b>Total disk space</b>: <code>{total}</code>\n" \
-        f"<b>Used</b>: <code>{used}</code>\n" \
-        f"<b>Free</b>: <code>{free}</code>\n"
+           f"<b>Total disk space</b>: <code>{total}</code>\n" \
+           f"<b>Used</b>: <code>{used}</code>\n" \
+           f"<b>Free</b>: <code>{free}</code>\n"
 
     msg = ms_g + "\n" + msg
     await message.reply_text(msg, quote=True)
+
 
 async def cancel_message_f(client, message):
     if len(message.command) > 1:
@@ -117,6 +120,7 @@ async def cancel_message_f(client, message):
             )
     else:
         await message.delete()
+
 
 async def exec_message_f(client, message):
     if message.from_user.id in AUTH_CHANNEL:
@@ -177,6 +181,8 @@ async def upload_document_f(client, message):
             )
             LOGGER.info(recvd_response)
     await imsegd.delete()
+
+
 '''
 async def eval_message_f(client, message):
     status_message = await message.reply_text("Processing ...")
@@ -243,3 +249,7 @@ async def upload_log_file(client, message):
     await message.reply_document(
         "Torrentleech-Gdrive.log"
     )
+
+
+async def upload_as_doc(client, message):
+    user_specific_config.add(UserDynaConfig(message.from_user.id,True))
