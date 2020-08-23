@@ -36,7 +36,7 @@ async def aria_start():
     aria2_daemon_start_cmd = []
     # start the daemon, aria2c command
     aria2_daemon_start_cmd.append("aria2c")
-    # aria2_daemon_start_cmd.append("--allow-overwrite=true")
+    aria2_daemon_start_cmd.append("--allow-overwrite=true")
     aria2_daemon_start_cmd.append("--daemon=true")
     # aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
     # TODO: this does not work, need to investigate this.
@@ -51,7 +51,7 @@ async def aria_start():
     aria2_daemon_start_cmd.append("--seed-ratio=0.0")
     aria2_daemon_start_cmd.append("--seed-time=1")
     aria2_daemon_start_cmd.append("--split=10")
-    aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
+    #aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
     #
     LOGGER.info(aria2_daemon_start_cmd)
     #
@@ -107,7 +107,7 @@ def add_torrent(aria_instance, torrent_file_path):
         else:
             return True, "" + download.gid + ""
     else:
-        return False, "**FAILED** \n" + str(e) + " \nPlease try other sources to get workable link"
+        return False, "**FAILED** \nPlease try other sources to get workable link"
 
 
 def add_url(aria_instance, text_url, c_file_name):
@@ -174,6 +174,7 @@ async def call_apropriate_function(
     await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
+    com_g = file.is_complete
     #
     if is_zip:
         # first check if current free space allows this
@@ -214,13 +215,14 @@ async def call_apropriate_function(
     response = {}
     LOGGER.info(response)
     user_id = user_message.from_user.id
-    print(user_id)
-    final_response = await upload_to_tg(
-        sent_message_to_update_tg_p,
-        to_upload_file,
-        user_id,
-        response
-    )
+    #LOGGER.info(user_id)
+    if com_g:
+        final_response = await upload_to_tg(
+            sent_message_to_update_tg_p,
+            to_upload_file,
+            user_id,
+            response
+        )
     LOGGER.info(final_response)
     try:
         message_to_send = ""
@@ -296,6 +298,7 @@ async def call_apropriate_function_g(
     await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
+    com_gau = file.is_complete
     #
     if is_zip:
         # first check if current free space allows this
@@ -336,13 +339,14 @@ async def call_apropriate_function_g(
     response = {}
     LOGGER.info(response)
     user_id = user_message.from_user.id
-    print(user_id)
-    final_response = await upload_to_gdrive(
-        to_upload_file,
-        sent_message_to_update_tg_p,
-        user_message,
-        user_id
-    )
+    LOGGER.info(user_id)
+    if com_gau:
+        final_response = await upload_to_gdrive(
+            to_upload_file,
+            sent_message_to_update_tg_p,
+            user_message,
+            user_id
+        )
 #
 async def call_apropriate_function_t(
     to_upload_file_g,
