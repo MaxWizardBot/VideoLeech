@@ -79,4 +79,4 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
-user_specific_config=set()
+user_specific_config=dict()
