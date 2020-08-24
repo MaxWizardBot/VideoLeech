@@ -177,10 +177,10 @@ async def split_file_to_parts_or_by_start_end_seconds(message, input_file, no_of
 
             LOGGER.info(input_extension)
             i = 0
-            while end_time < total_duration:
-                LOGGER.info(i)
+            while end_time <= total_duration:
+                LOGGER.info(f'part - {i},starttime={start_time},endtime={end_time}')
                 parted_file_name = ""
-                parted_file_name += str(i).zfill(5)
+                parted_file_name += str(i).zfill(3)
                 parted_file_name += str(base_name)
                 parted_file_name += "_PART_"
                 parted_file_name += str(start_time)
