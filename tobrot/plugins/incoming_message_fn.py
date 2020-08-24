@@ -3,8 +3,10 @@
 # (c) Shrimadhav U K | gautamajay52 | Akshay C
 
 # the logging things
+import datetime
 import logging
 
+from tobrot.helper_funcs.split_large_files import split_file_to_parts_or_by_start_end_seconds
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
 
 logging.basicConfig(
@@ -14,14 +16,12 @@ logging.basicConfig(
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
-
 import os
 import requests
 
 from tobrot import (
     DOWNLOAD_LOCATION
 )
-
 
 import time
 import aria2p
@@ -35,6 +35,7 @@ from tobrot.helper_funcs.admin_check import AdminCheck
 from tobrot.helper_funcs.ytplaylist import yt_playlist_downg
 from tobrot.helper_funcs.download import down_load_media_f
 
+
 async def incoming_purge_message_f(client, message):
     """/purge command"""
     i_m_sefg2 = await message.reply_text("Purging...", quote=True)
@@ -45,6 +46,7 @@ async def incoming_purge_message_f(client, message):
         for download in downloads:
             LOGGER.info(download.remove(force=True))
     await i_m_sefg2.delete()
+
 
 async def incoming_message_f(client, message):
     """/leech command"""
@@ -103,6 +105,8 @@ async def incoming_message_f(client, message):
             "**FCUK**! wat have you entered. \nPlease read /help \n"
             f"<b>API Error</b>: {cf_name}"
         )
+
+
 #
 async def incoming_gdrive_message_f(client, message):
     """/gleech command"""
@@ -169,10 +173,10 @@ async def incoming_youtube_dl_f(client, message):
         message.reply_to_message, "YTDL"
     )
     LOGGER.info(dl_url)
-    #if len(message.command) > 1:
-        #if message.command[1] == "gdrive":
-            #with open('blame_my_knowledge.txt', 'w+') as gg:
-                #gg.write("I am noob and don't know what to do that's why I have did this")
+    # if len(message.command) > 1:
+    # if message.command[1] == "gdrive":
+    # with open('blame_my_knowledge.txt', 'w+') as gg:
+    # gg.write("I am noob and don't know what to do that's why I have did this")
     LOGGER.info(cf_name)
     if dl_url is not None:
         await i_m_sefg.edit_text("extracting links")
@@ -196,7 +200,7 @@ async def incoming_youtube_dl_f(client, message):
         open(gau_tam, 'wb').write(req.content)
         if thumb_image is not None:
             await message.reply_photo(
-                #text_message,
+                # text_message,
                 photo=gau_tam,
                 quote=True,
                 caption=text_message,
@@ -213,11 +217,13 @@ async def incoming_youtube_dl_f(client, message):
             "**FCUK**! wat have you entered. \nPlease read /help \n"
             f"<b>API Error</b>: {cf_name}"
         )
-#playlist
+
+
+# playlist
 async def g_yt_playlist(client, message):
     """ /pytdl command """
-    #i_m_sefg = await message.reply_text("Processing...you should wait🤗", quote=True)
-    if("rename" not in message.command):
+    # i_m_sefg = await message.reply_text("Processing...you should wait🤗", quote=True)
+    if ("rename" not in message.command):
         usr_id = message.from_user.id
         G_DRIVE = False
         if len(message.command) > 1:
@@ -226,11 +232,11 @@ async def g_yt_playlist(client, message):
         if 'youtube.com/playlist' in message.reply_to_message.text:
             i_m_sefg = await message.reply_text("Downloading...you should wait🤗", quote=True)
             await yt_playlist_downg(message.reply_to_message, i_m_sefg, G_DRIVE)
-        
+
         else:
             await message.reply_text("Reply to youtube playlist link only 🙄")
     else:
-            await message.reply_text("Rename Should not use with youtube playlist 🙄")
+        await message.reply_text("Rename Should not use with youtube playlist 🙄")
 
 
 async def rename_message_f(client, message):
@@ -253,16 +259,44 @@ async def rename_message_f(client, message):
 
 
 async def split_video(client, message):
-    if len(message.command)>1 and type(message.command[1]) is int:
+    no_of_parts = None
+    start_seconds = None
+    end_seconds = None
+    if len(message.command) > 1 and message.command[1].isdigit():
+        if int(message.command[1]) > 20:
+            await message.reply_text("presently split command support only 20 parts maximum")
+        else:
+            no_of_parts = int(message.command[1])
+    elif len(message.command) > 1 and not message.command[1].isdigit() and len(message.command[1].split("-")) > 1:
+        try:
+            start_seconds = int(
+                (datetime.datetime.strptime(message.command[1].split("-")[0],"%H:%M:%S")
+                 - datetime.datetime(1900, 1, 1)).total_seconds())
+            end_seconds = int(
+                (datetime.datetime.strptime(message.command[1].split("-")[1], "%H:%M:%S") - datetime.datetime(
+                    1900, 1, 1)).total_seconds())
+            if end_seconds > 72000:
+                await message.reply_text(
+                    "presently support maximum 20 hours end timestamp change end timestamp and try again")
+                end_seconds = None
+        except:
+            await message.reply_text("Please enter timestamps in correct format Ex:/split 00:00:30-01:22:34")
+    else:
+        await message.reply_text(
+            "1.Command needs to have no.of parts or timestamps duration to split  \n Ex:/split 4 \n Ex:/split "
+            "00:00:30-01:22:34 ")
+    if no_of_parts is not None or start_seconds is not None and end_seconds is not None:
         download_loc = await down_load_media_f(client, message)
-        splitted_parts_dir_loc=split_video(download_loc,message.command[1])
-        response = {}
-        LOGGER.info(response)
-        user_id = message.from_user.id
-        final_response = await upload_to_tg(
-            message,
-            splitted_parts_dir_loc,
-            user_id,
-            response
-        )
-        LOGGER.info(final_response)
+        splits_parts_dir_loc = split_file_to_parts_or_by_start_end_seconds(message, download_loc, no_of_parts,
+                                                                           start_seconds, end_seconds)
+        if splits_parts_dir_loc is not None:
+            response = {}
+            LOGGER.info(response)
+            user_id = message.from_user.id
+            final_response = await upload_to_tg(
+                message,
+                splits_parts_dir_loc,
+                user_id,
+                response
+            )
+            LOGGER.info(final_response)

@@ -4,6 +4,7 @@
 
 # the logging things
 import logging
+import math
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -134,7 +135,7 @@ async def cult_small_video(video_file, out_put_file_name, start_time, end_time):
     return out_put_file_name
 
 
-async def split_file_by_no_of_parts(input_file, no_of_parts):
+async def split_file_to_parts_or_by_start_end_seconds(message, input_file, no_of_parts, start_seconds, end_seconds):
     working_directory = os.path.dirname(os.path.abspath(input_file))
     new_working_directory = os.path.join(
         working_directory,
@@ -153,35 +154,49 @@ async def split_file_by_no_of_parts(input_file, no_of_parts):
         LOGGER.info(total_duration)
         total_file_size = os.path.getsize(input_file)
         LOGGER.info(total_file_size)
-        duration_per_part = (total_duration / no_of_parts)
-        LOGGER.info(duration_per_part)
-        # END: proprietary
-        start_time = 0
-        end_time = duration_per_part
         base_name = os.path.basename(input_file)
         input_extension = base_name.split(".")[-1]
-        LOGGER.info(input_extension)
-        i = 0
-        while end_time < total_duration:
-            LOGGER.info(i)
-            parted_file_name = ""
-            parted_file_name += str(i).zfill(5)
-            parted_file_name += str(base_name)
-            parted_file_name += "_PART_"
-            parted_file_name += str(start_time)
-            parted_file_name += "."
-            parted_file_name += str(input_extension)
-            output_file = os.path.join(new_working_directory, parted_file_name)
-            LOGGER.info(output_file)
-            LOGGER.info(await cult_small_video(
-                input_file,
-                output_file,
-                str(start_time),
-                str(end_time)
-            ))
-            start_time = end_time
-            end_time = end_time + duration_per_part
-            if end_time > total_duration:
-                end_time = total_duration
-            i = i + 1
+        if no_of_parts is None:
+            if total_duration >= end_seconds:
+                output_file = os.path.join(new_working_directory, f'{base_name}_split_.{input_extension}')
+                LOGGER.info(await cult_small_video(
+                    input_file,
+                    output_file,
+                    str(start_seconds),
+                    str(end_seconds)
+                ))
+            else:
+                await message.reply_text("given end timestamp is out of range of actual video runtime")
+                return None
+        else:
+            duration_per_part = math.floor(total_duration / no_of_parts)
+            LOGGER.info(duration_per_part)
+            # END: proprietary
+            start_time = 0
+            end_time = duration_per_part
+
+            LOGGER.info(input_extension)
+            i = 0
+            while end_time < total_duration:
+                LOGGER.info(i)
+                parted_file_name = ""
+                parted_file_name += str(i).zfill(5)
+                parted_file_name += str(base_name)
+                parted_file_name += "_PART_"
+                parted_file_name += str(start_time)
+                parted_file_name += "."
+                parted_file_name += str(input_extension)
+                output_file = os.path.join(new_working_directory, parted_file_name)
+                LOGGER.info(output_file)
+                LOGGER.info(await cult_small_video(
+                    input_file,
+                    output_file,
+                    str(start_time),
+                    str(end_time)
+                ))
+                start_time = end_time
+                end_time = end_time + duration_per_part
+                if end_time > total_duration:
+                    end_time = total_duration
+                i = i + 1
     return new_working_directory
