@@ -4,6 +4,7 @@
 
 # the logging things
 import logging
+import math
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -350,13 +351,14 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                         os.path.dirname(os.path.abspath(local_file_name))
                     )
                 else:
+                    LOGGER.info("Taking Screenshot")
                     thumb_image_path = await take_screen_shot(
                         local_file_name,
                         os.path.dirname(os.path.abspath(local_file_name)),
-                        (duration / 2)
+                        math.floor(duration / 2)
                     )
                     # get the correct width, height, and duration for videos greater than 10MB
-                if thumb_image_path is not None and os.path.file(thumb_image_path):
+                if thumb_image_path is not None and os.path.isfile(thumb_image_path):
                     metadata = extractMetadata(createParser(thumb_image_path))
                     if metadata.has("width"):
                         width = metadata.get("width")
