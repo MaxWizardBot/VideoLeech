@@ -350,6 +350,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                         os.path.dirname(os.path.abspath(local_file_name))
                     )
                 else:
+                    await asyncio.sleep(5)
                     thumb_image_path = await take_screen_shot(
                         local_file_name,
                         os.path.dirname(os.path.abspath(local_file_name)),
