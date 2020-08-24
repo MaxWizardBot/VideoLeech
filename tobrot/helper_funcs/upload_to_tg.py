@@ -280,7 +280,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
     for key in iter(user_specific_config):
         if key == from_user:
             dyna_user_config_upload_as_doc=user_specific_config[key].upload_as_doc
-            LOGGER.info('Found dyanamic config for user'+from_user)
+            LOGGER.info(f'Found dyanamic config for user {from_user}')
     #
     if UPLOAD_AS_DOC.upper() == 'TRUE' or dyna_user_config_upload_as_doc:
         thumb = None
