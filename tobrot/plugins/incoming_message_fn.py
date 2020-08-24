@@ -250,3 +250,19 @@ async def rename_message_f(client, message):
         LOGGER.info(final_response)
     else:
         await message.reply_text("Command needs to have new file name to rename  Ex:/rename new_file_name")
+
+
+async def split_video(client, message):
+    if len(message.command)>1 and type(message.command[1]) is int:
+        download_loc = await down_load_media_f(client, message)
+        splitted_parts_dir_loc=split_video(download_loc,message.command[1])
+        response = {}
+        LOGGER.info(response)
+        user_id = message.from_user.id
+        final_response = await upload_to_tg(
+            message,
+            splitted_parts_dir_loc,
+            user_id,
+            response
+        )
+        LOGGER.info(final_response)

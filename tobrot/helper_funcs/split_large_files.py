@@ -4,13 +4,13 @@
 
 # the logging things
 import logging
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-
 
 import asyncio
 import os
@@ -132,3 +132,56 @@ async def cult_small_video(video_file, out_put_file_name, start_time, end_time):
     t_response = stdout.decode().strip()
     LOGGER.info(t_response)
     return out_put_file_name
+
+
+async def split_file_by_no_of_parts(input_file, no_of_parts):
+    working_directory = os.path.dirname(os.path.abspath(input_file))
+    new_working_directory = os.path.join(
+        working_directory,
+        str(time.time())
+    )
+    # create download directory, if not exist
+    if not os.path.isdir(new_working_directory):
+        os.makedirs(new_working_directory)
+    if input_file.upper().endswith(("MKV", "MP4", "WEBM", "MP3", "M4A", "FLAC", "WAV")):
+        # handle video / audio files here
+        metadata = extractMetadata(createParser(input_file))
+        total_duration = 0
+        if metadata.has("duration"):
+            total_duration = metadata.get('duration').seconds
+        # proprietary logic to get the seconds to trim (at)
+        LOGGER.info(total_duration)
+        total_file_size = os.path.getsize(input_file)
+        LOGGER.info(total_file_size)
+        duration_per_part = (total_duration / no_of_parts)
+        LOGGER.info(duration_per_part)
+        # END: proprietary
+        start_time = 0
+        end_time = duration_per_part
+        base_name = os.path.basename(input_file)
+        input_extension = base_name.split(".")[-1]
+        LOGGER.info(input_extension)
+        i = 0
+        while end_time < total_duration:
+            LOGGER.info(i)
+            parted_file_name = ""
+            parted_file_name += str(i).zfill(5)
+            parted_file_name += str(base_name)
+            parted_file_name += "_PART_"
+            parted_file_name += str(start_time)
+            parted_file_name += "."
+            parted_file_name += str(input_extension)
+            output_file = os.path.join(new_working_directory, parted_file_name)
+            LOGGER.info(output_file)
+            LOGGER.info(await cult_small_video(
+                input_file,
+                output_file,
+                str(start_time),
+                str(end_time)
+            ))
+            start_time = end_time
+            end_time = end_time + duration_per_part
+            if end_time > total_duration:
+                end_time = total_duration
+            i = i + 1
+    return new_working_directory
