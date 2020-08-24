@@ -74,7 +74,7 @@ async def down_load_media_f(client, message):
             else:
                 file_upload = the_real_download_location_g
 
-            if file_upload is not None:
+            if file_upload is not None and not message.command[0] == 'split':
                 g_response = await upload_to_gdrive(file_upload, mess_age, message, user_id)
                 LOGGER.info(g_response)
         else:

@@ -287,7 +287,7 @@ async def split_video(client, message):
             "00:00:30-01:22:34 ")
     if no_of_parts is not None or start_seconds is not None and end_seconds is not None:
         download_loc = await down_load_media_f(client, message)
-        splits_parts_dir_loc = split_file_to_parts_or_by_start_end_seconds(message, download_loc, no_of_parts,
+        splits_parts_dir_loc = await split_file_to_parts_or_by_start_end_seconds(message, download_loc, no_of_parts,
                                                                            start_seconds, end_seconds)
         if splits_parts_dir_loc is not None:
             response = {}
