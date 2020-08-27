@@ -38,5 +38,5 @@ async def help_message_f(client, message):
     #message_id = 99
     # display the /help
     
-    await message.reply_text("""For Help contact @skbaji\n\n And also don't forget to fork this repo: <a href="https://github.com/skbaji/TorrentLeech-Gdrive">TorrentLeech-Gdrive</a>""", disable_web_page_preview=True)
+    await message.reply_text("""For Help contact @skbaji\n\n And also don't forget to fork this repo: <a href="https://github.com/skbaji6/TorrentLeech-Gdrive">TorrentLeech-Gdrive</a>""", disable_web_page_preview=True)
 
