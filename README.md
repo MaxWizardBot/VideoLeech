@@ -215,7 +215,24 @@ and everythin except `[NAME]`
 
 * `/getsize`: This will give you total size of your destination folder in cloud.
 
-* `/renewme`: This will clear the remains of downloads which are not getting deleted after upload of the file or after /cancel command. 
+* `/renewme`: This will clear the remains of downloads which are not getting deleted after upload of the file or after /cancel command.
+
+* `/uploadasdoc`: all your Telegram uploads will be as document here after until server restarted(its standalone command no need to reply to any media)
+ 
+* `/uploadasvideo`: all your Telegram uploads will be as video here after until server restarted(its standalone command no need to reply to any media)
+
+values in the <> are variables
+
+* `/split <4>`: This will split the given Telegram video file into 4 equal parts and upload to Telegram Ex:/split 6
+
+* `/split <00:10:00-00:15:00>`: This will get sample of given telegram video from 10th min to 15th min and will upload to Telegram(you can change the timestamps) Ex: /split 00:02:00-01:02:00
+
+* `/rename <newfilename>`: This will rename the given telegram file and upload to cloud and telegram Ex:/rename Dark S02 E04
+
+* `/leech rename <newfilename>`: This will rename the file and upload to telegram after leech.
+
+* `/gleech rename <newfilename>`: This will rename the file and upload to your cloud after leech.
+
 
 
 * [Only work with direct link for now]It is like u can add custom name as prefix of the original file name.

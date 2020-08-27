@@ -81,12 +81,13 @@ async def upload_to_tg(
     caption_str += "<code>"
     caption_str += base_file_name
     caption_str += "</code>"
-    caption_str += "\n\nJoin and Support: "
-    caption_str += "<a href='"
-    caption_str += f"{CHANNEL_URL}"
-    caption_str += "'>"
-    caption_str += f"{CHANNEL_URL}"
-    caption_str += "</a>"
+    if CHANNEL_URL is not None:
+        caption_str += "\n\nJoin and Support: "
+        caption_str += "<a href='"
+        caption_str += f"{CHANNEL_URL}"
+        caption_str += "'>"
+        caption_str += f"{CHANNEL_URL}"
+        caption_str += "</a>"
     if os.path.isdir(local_file_name):
         directory_contents = os.listdir(local_file_name)
         directory_contents.sort()

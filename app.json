@@ -114,7 +114,11 @@
 	"STRIP_FILE_NAMES":{
 	  "description": "Enter single or multiple texts separated by | symbol to remove from filename Ex: HDRIP|BRRIP ",
       "required": false
-	}
+	},
+    "CHANNEL_URL": {
+      "description": "Enter channel url to append your channel URL to every File uploaded to telegram ",
+      "required": false
+    }
   },
     "addons": [
   ],
