@@ -54,3 +54,4 @@ class Config(object):
     LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
     SPLIT_COMMAND = os.environ.get("SPLIT_COMMAND", "split")
     RENAME_COMMAND = os.environ.get("RENAME_COMMAND", "rename")
+    UPLOAD_TO_CLOUD_WHEN_RENAME =os.environ.get("UPLOAD_TO_CLOUD_WHEN_RENAME", "N")

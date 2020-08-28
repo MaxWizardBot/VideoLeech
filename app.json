@@ -126,6 +126,10 @@
     "SPLIT_COMMAND": {
       "description": "Enter your custom split command like split@urgroupname and so on. Default is /split.",
       "required": false
+    },
+    "UPLOAD_TO_CLOUD_WHEN_RENAME": {
+      "description": "Y/N Do you want to upload the file to cloud while using rename command. Default is N",
+      "required": false
     }
   },
     "stack": "container"

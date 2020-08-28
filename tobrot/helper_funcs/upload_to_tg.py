@@ -207,7 +207,8 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         if not messa_ge.command[0] == "rename":
             LOGGER.info('deleting the downloaded file after uploading to Gdrive beacuse it is not rename command')
             os.remove(file_upload)
-        LOGGER.info('Not deleting the downloaded file Even after uploading to Gdrive beacuse it is rename command')
+        else:
+            LOGGER.info('Not deleting the downloaded file Even after uploading to Gdrive beacuse it is rename command')
         await del_it.delete()
     else:
         tt = os.path.join(destination, file_upload)
