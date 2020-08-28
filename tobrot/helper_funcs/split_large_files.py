@@ -119,6 +119,8 @@ async def cult_small_video(video_file, out_put_file_name, start_time, end_time):
         "-2",
         "-c",
         "copy",
+        "-map",
+        "0",
         out_put_file_name
     ]
     process = await asyncio.create_subprocess_exec(
@@ -156,9 +158,10 @@ async def split_file_to_parts_or_by_start_end_seconds(message, input_file, no_of
         LOGGER.info(total_file_size)
         base_name = os.path.basename(input_file)
         input_extension = base_name.split(".")[-1]
+        file_name_without_extension= base_name.replace(f".{input_extension}","")
         if no_of_parts is None:
             if total_duration >= end_seconds:
-                output_file = os.path.join(new_working_directory, f'{base_name}_split_.{input_extension}')
+                output_file = os.path.join(new_working_directory, f'{file_name_without_extension}_SAMPLE.{input_extension}')
                 LOGGER.info(await cult_small_video(
                     input_file,
                     output_file,
@@ -180,10 +183,9 @@ async def split_file_to_parts_or_by_start_end_seconds(message, input_file, no_of
             while end_time < total_duration+2:
                 LOGGER.info(f'part - {i},starttime={start_time},endtime={end_time}')
                 parted_file_name = ""
-                parted_file_name += str(i).zfill(3)
-                parted_file_name += str(base_name)
+                parted_file_name += str(file_name_without_extension)
                 parted_file_name += "_PART_"
-                parted_file_name += str(start_time)
+                parted_file_name += str(i).zfill(3)
                 parted_file_name += "."
                 parted_file_name += str(input_extension)
                 output_file = os.path.join(new_working_directory, parted_file_name)

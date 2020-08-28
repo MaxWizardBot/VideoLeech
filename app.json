@@ -118,6 +118,14 @@
     "CHANNEL_URL": {
       "description": "Enter channel url to append your channel URL to every File uploaded to telegram ",
       "required": false
+    },
+    "RENAME_COMMAND": {
+      "description": "Enter your custom rename command like rename@urgroupname and so on. Default is /rename.",
+      "required": false
+    },
+    "SPLIT_COMMAND": {
+      "description": "Enter your custom split command like split@urgroupname and so on. Default is /split.",
+      "required": false
     }
   },
     "stack": "container"

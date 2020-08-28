@@ -56,6 +56,8 @@ BOT_START_TIME = time.time()
 PYTDL_COMMAND_G = Config.PYTDL_COMMAND_G
 CHANNEL_URL = Config.CHANNEL_URL
 LOG_COMMAND = Config.LOG_COMMAND
+SPLIT_COMMAND = Config.SPLIT_COMMAND
+RENAME_COMMAND = Config.RENAME_COMMAND
 
 if os.path.exists("TorrentLeech-Gdrive.log"):
 	with open("Torrentleech-Gdrive.log", "r+") as f_d:

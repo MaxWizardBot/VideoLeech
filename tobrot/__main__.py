@@ -33,7 +33,9 @@ from tobrot import (
     SAVE_THUMBNAIL,
     CLEAR_THUMBNAIL,
     PYTDL_COMMAND_G,
-    LOG_COMMAND
+    LOG_COMMAND,
+    RENAME_COMMAND,
+    SPLIT_COMMAND
 )
 
 from pyrogram import Client, Filters, MessageHandler, CallbackQueryHandler
@@ -146,7 +148,7 @@ if __name__ == "__main__" :
     #
     rename_message_handler = MessageHandler(
         rename_message_f,
-        filters=Filters.command(["rename"]) & Filters.chat(chats=AUTH_CHANNEL)
+        filters=Filters.command([f"{RENAME_COMMAND}"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(rename_message_handler)
     #
@@ -211,7 +213,7 @@ if __name__ == "__main__" :
 
     split_video_handler = MessageHandler(
         split_video,
-        filters=Filters.command("split") & Filters.chat(chats=AUTH_CHANNEL)
+        filters=Filters.command([f"{SPLIT_COMMAND}"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(split_video_handler)
 

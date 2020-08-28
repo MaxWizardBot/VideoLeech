@@ -52,3 +52,5 @@ class Config(object):
     STRIP_FILE_NAMES = os.environ.get("STRIP_FILE_NAMES", "")
     PYTDL_COMMAND_G = os.environ.get("PYTDL_COMMAND_G", "pytdl")
     LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
+    SPLIT_COMMAND = os.environ.get("SPLIT_COMMAND", "split")
+    RENAME_COMMAND = os.environ.get("RENAME_COMMAND", "rename")

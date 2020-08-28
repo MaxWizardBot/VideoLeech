@@ -20,7 +20,9 @@ import os
 import requests
 
 from tobrot import (
-    DOWNLOAD_LOCATION
+    DOWNLOAD_LOCATION,
+    SPLIT_COMMAND,
+    RENAME_COMMAND
 )
 
 import time
@@ -240,6 +242,7 @@ async def g_yt_playlist(client, message):
 
 
 async def rename_message_f(client, message):
+    message.command[0] = "rename"
     txt = " ".join(message.command)
     if txt.find("rename") > -1 and len(txt.strip()) > 7:
         download_loc = await down_load_media_f(client, message)
@@ -255,40 +258,41 @@ async def rename_message_f(client, message):
         )
         LOGGER.info(final_response)
     else:
-        await message.reply_text("Command needs to have new file name to rename  Ex:/rename new_file_name")
+        await message.reply_text(f"Command needs to have new file name to rename  Ex:/{RENAME_COMMAND} new_file_name")
 
 
 async def split_video(client, message):
+    message.command[0] = "split"
     no_of_parts = None
     start_seconds = None
     end_seconds = None
     if len(message.command) > 1 and message.command[1].isdigit():
         if int(message.command[1]) > 20:
-            await message.reply_text("presently split command support only 20 parts maximum")
+            await message.reply_text(f"presently {SPLIT_COMMAND} command support only 20 parts maximum")
         else:
             no_of_parts = int(message.command[1])
     elif len(message.command) > 1 and not message.command[1].isdigit() and len(message.command[1].split("-")) > 1:
         try:
             start_seconds = int(
-                (datetime.datetime.strptime(message.command[1].split("-")[0],"%H:%M:%S")
+                (datetime.datetime.strptime(message.command[1].split("-")[0], "%H:%M:%S")
                  - datetime.datetime(1900, 1, 1)).total_seconds())
             end_seconds = int(
                 (datetime.datetime.strptime(message.command[1].split("-")[1], "%H:%M:%S") - datetime.datetime(
                     1900, 1, 1)).total_seconds())
             if end_seconds > 72000:
                 await message.reply_text(
-                    "presently support maximum 20 hours end timestamp change end timestamp and try again")
+                    f"presently {SPLIT_COMMAND} command support maximum 20 hours end timestamp change end timestamp and try again")
                 end_seconds = None
         except:
-            await message.reply_text("Please enter timestamps in correct format Ex:/split 00:00:30-01:22:34")
+            await message.reply_text(f"Please enter timestamps in correct format Ex:/{SPLIT_COMMAND} 00:00:30-01:22:34")
     else:
         await message.reply_text(
-            "1.Command needs to have no.of parts or timestamps duration to split  \n Ex:/split 4 \n Ex:/split "
+            f"1.Command needs to have no.of parts or timestamps duration to split  \n Ex:/{SPLIT_COMMAND} 4 \n Ex:/split "
             "00:00:30-01:22:34 ")
     if no_of_parts is not None or start_seconds is not None and end_seconds is not None:
         download_loc = await down_load_media_f(client, message)
         splits_parts_dir_loc = await split_file_to_parts_or_by_start_end_seconds(message, download_loc, no_of_parts,
-                                                                           start_seconds, end_seconds)
+                                                                                 start_seconds, end_seconds)
         if splits_parts_dir_loc is not None:
             response = {}
             LOGGER.info(response)
