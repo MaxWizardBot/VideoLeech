@@ -35,14 +35,15 @@ from tobrot import (
     PYTDL_COMMAND_G,
     LOG_COMMAND,
     RENAME_COMMAND,
-    SPLIT_COMMAND
+    SPLIT_COMMAND,
+    GP_LINKS_COMMAND
 )
 
 from pyrogram import Client, Filters, MessageHandler, CallbackQueryHandler
 
 from tobrot.plugins.new_join_fn import new_join_f, help_message_f
 from tobrot.plugins.incoming_message_fn import incoming_message_f, incoming_youtube_dl_f, incoming_purge_message_f, \
-    incoming_gdrive_message_f, g_yt_playlist, rename_message_f, split_video
+    incoming_gdrive_message_f, g_yt_playlist, rename_message_f, split_video, gp_link_generate
 from tobrot.plugins.rclone_size import check_size_g, g_clearme
 from tobrot.plugins.status_message_fn import (
     status_message_f,
@@ -216,5 +217,11 @@ if __name__ == "__main__" :
         filters=Filters.command([f"{SPLIT_COMMAND}"]) & Filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(split_video_handler)
+
+    gp_link_handler = MessageHandler(
+        gp_link_generate,
+        filters=Filters.command([f"{GP_LINKS_COMMAND}"]) & Filters.chat(chats=AUTH_CHANNEL)
+    )
+    app.add_handler(gp_link_handler)
 
     app.run()

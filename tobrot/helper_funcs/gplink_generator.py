@@ -1,3 +1,5 @@
+import urllib
+
 import aiohttp
 
 from tobrot import LOGGER, GP_LINKS_API_KEY, CHANNEL_URL
@@ -7,13 +9,18 @@ async def generate_gp_link(message,link,file_name):
     try:
         data = await get_shortlink(link)
         if not data["status"] == "error":
-            caption_str = f'\nFile Name: <b>{file_name}</b> ' \
-                          f'\n\n <b>=============================</b>' \
-                          f'\n\n <center>👉<b>[Direct Download Link]({data["shortenedUrl"]})</b>👈</center>' \
-                          f'\n\n <b>=============================</b>'
-            caption_str +=f'\n\n 💡 <b>[How to Download?](t.me/MThowtodownload/3)</b> 💡'
+            caption_str ='';
+            if file_name is not None:
+                file_name = urllib.parse.unquote(file_name)
+                caption_str += f'\n<b>{file_name}</b>\n\n'
+            caption_str +=f'<b>━━━━━━━━━━━━━━━━━━━━━━</b>' \
+                          f'\n  <b> 【Full Movie Download】☟ </b>' \
+                          f'\n👉 <b>[Fast Download Link]({data["shortenedUrl"]})</b> 👈' \
+                          f'\n <b>━━━━━━━━━━━━━━━━━━━━━━</b>' \
+                          f'\n <b>✘ Disable your Ad-Blocker ✘</b>'
+            caption_str +=f'\n\n💡 <b>[How to Download](t.me/MThowtodownload/3)</b> 💡'
             if CHANNEL_URL is not None:
-                caption_str += f"\n ⚡ Powered By: <b>[MoviezTrends]({CHANNEL_URL})</b> ⚡"
+                caption_str += f"\n\n ⚡ Powered By: <b>[MoviezTrends]({CHANNEL_URL})</b> ⚡"
             await message.reply(caption_str, quote=True,disable_web_page_preview=True)
         else:
             await message.reply(f'Unable to generate GP Link due to FileName. Generate link from [Website](https://gplinks.in)', quote=True,disable_web_page_preview=True)

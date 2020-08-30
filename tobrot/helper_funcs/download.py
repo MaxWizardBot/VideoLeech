@@ -5,6 +5,8 @@
 # the logging things
 import logging
 
+from tobrot.helper_funcs.utils import sanitize_text
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -67,7 +69,9 @@ async def down_load_media_f(client, message):
             elif message.command[1] == "untar":
                 file_upload = await untar_me(the_real_download_location_g)
             elif txt.find("rename") > -1 and len(txt[txt.find("rename") + 7:]) > 0:
-                file_upload = txt[txt.find("rename") + 7:] + Path(the_real_download_location_g).suffix
+                file_name = txt[txt.find("rename") + 7:]
+                file_name= await sanitize_text(file_name)
+                file_upload = file_name + Path(the_real_download_location_g).suffix
                 os.rename(the_real_download_location_g, file_upload)
                 LOGGER.info(the_real_download_location_g)
                 LOGGER.info(file_upload)

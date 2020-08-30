@@ -26,3 +26,10 @@ async def generate_tag(message,final_response):
         )
     except:
         pass
+
+
+async def sanitize_text(input_text):
+    sanitized_data = input_text.translate({ord(c): "-" for c in "+|"})
+    sanitized_data = sanitized_data.translate({ord(c): "" for c in "™"})
+    sanitized_data = sanitized_data.replace("  ","")
+    return sanitized_data

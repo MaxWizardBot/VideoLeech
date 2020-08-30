@@ -57,3 +57,4 @@ class Config(object):
     RENAME_COMMAND = os.environ.get("RENAME_COMMAND", "rename")
     UPLOAD_TO_CLOUD_WHEN_RENAME = os.environ.get("UPLOAD_TO_CLOUD_WHEN_RENAME", "N")
     GP_LINKS_API_KEY = os.environ.get("GP_LINKS_API_KEY", None)
+    GP_LINKS_COMMAND = os.environ.get("GP_LINKS_COMMAND", "gplink")

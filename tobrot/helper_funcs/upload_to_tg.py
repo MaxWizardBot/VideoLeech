@@ -7,6 +7,7 @@ import logging
 import math
 
 from tobrot.helper_funcs import gplink_generator
+from tobrot.helper_funcs.utils import sanitize_text
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -74,6 +75,7 @@ async def upload_to_tg(
         txt = getattr(message.reply_to_message, 'text', '')
         if txt is not None and txt.find("rename") > -1 and len(txt[txt.find("rename") + 7:]) > 0 and os.path.isfile(local_file_name):
             rename_text = txt[txt.find("rename") + 7:]
+            rename_text = await sanitize_text(rename_text)
             print("BAJ LocFileName Before : " + local_file_name)
             absName = os.path.join(os.path.dirname(local_file_name), rename_text + Path(local_file_name).suffix)
             os.rename(local_file_name, absName)

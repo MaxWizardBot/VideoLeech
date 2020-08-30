@@ -7,6 +7,7 @@ import datetime
 import logging
 
 from tobrot.helper_funcs import utils
+from tobrot.helper_funcs.gplink_generator import generate_gp_link
 from tobrot.helper_funcs.split_large_files import split_file_to_parts_or_by_start_end_seconds
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
 
@@ -23,7 +24,8 @@ import requests
 from tobrot import (
     DOWNLOAD_LOCATION,
     SPLIT_COMMAND,
-    RENAME_COMMAND
+    RENAME_COMMAND,
+    GP_LINKS_COMMAND
 )
 
 import time
@@ -307,3 +309,19 @@ async def split_video(client, message):
             )
             LOGGER.info(final_response)
         await utils.generate_tag(message,final_response)
+
+
+async def gp_link_generate(client, message):
+    message.command[0] = "gplink"
+    txt = " ".join(message.command)
+    if txt.find("gplink") > -1 and len(txt.strip()) > 7:
+        url_to_shorten = txt[txt.find("gplink") + 7:]
+        file_name = None
+        if (url_to_shorten.find('workers.dev')>-1):
+            file_name = url_to_shorten.split('/')[-1]
+        if file_name is not None and len(file_name) > 0:
+            await generate_gp_link(message, url_to_shorten, file_name)
+        else:
+            await generate_gp_link(message, url_to_shorten, None)
+    else:
+        await message.reply_text(f"Please enter URL to shorten Ex:/{GP_LINKS_COMMAND} https://google.com")
