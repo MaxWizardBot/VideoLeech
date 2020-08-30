@@ -59,6 +59,7 @@ LOG_COMMAND = Config.LOG_COMMAND
 SPLIT_COMMAND = Config.SPLIT_COMMAND
 RENAME_COMMAND = Config.RENAME_COMMAND
 UPLOAD_TO_CLOUD_WHEN_RENAME = Config.UPLOAD_TO_CLOUD_WHEN_RENAME
+GP_LINKS_API_KEY = Config.GP_LINKS_API_KEY
 
 if os.path.exists("TorrentLeech-Gdrive.log"):
 	with open("Torrentleech-Gdrive.log", "r+") as f_d:

@@ -6,6 +6,8 @@
 import logging
 import math
 
+from tobrot.helper_funcs import gplink_generator
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -41,6 +43,7 @@ from tobrot import (
     INDEX_LINK,
     UPLOAD_AS_DOC,
     CHANNEL_URL,
+    GP_LINKS_API_KEY,
     user_specific_config)
 
 from pyrogram import (
@@ -154,6 +157,7 @@ async def upload_to_tg(
 # coded by © gautamajay52 thanks to Rclone team for this wonderful tool.🧘
 
 async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
+    tam_link = None
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     del_it = await message.edit_text("🔊 Now Uploading to ☁️ Cloud!!!")
     # subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
@@ -262,6 +266,8 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             shutil.rmtree(file_upload)
         await del_it.delete()
         # os.remove('rclone.conf')
+    if GP_LINKS_API_KEY is not None and tam_link is not None:
+        await gplink_generator.generate_gp_link(messa_ge,tam_link,file_upload)
 
 
 #

@@ -6,6 +6,7 @@
 import datetime
 import logging
 
+from tobrot.helper_funcs import utils
 from tobrot.helper_funcs.split_large_files import split_file_to_parts_or_by_start_end_seconds
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
 
@@ -257,6 +258,7 @@ async def rename_message_f(client, message):
             response
         )
         LOGGER.info(final_response)
+        await utils.generate_tag(message, final_response)
     else:
         await message.reply_text(f"Command needs to have new file name to rename  Ex:/{RENAME_COMMAND} new_file_name")
 
@@ -304,3 +306,4 @@ async def split_video(client, message):
                 response
             )
             LOGGER.info(final_response)
+        await utils.generate_tag(message,final_response)

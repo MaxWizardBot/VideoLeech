@@ -130,6 +130,10 @@
     "UPLOAD_TO_CLOUD_WHEN_RENAME": {
       "description": "Y/N Do you want to upload the file to cloud while using rename command. Default is N",
       "required": false
+    },
+    "GP_LINKS_API_KEY": {
+      "description": "API Token of GP Links get it from https://gplinks.in/member/tools/api . Default is None",
+      "required": false
     }
   },
     "stack": "container"
