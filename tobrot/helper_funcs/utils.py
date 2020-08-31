@@ -1,5 +1,7 @@
+import pyrogram
 
-async def generate_tag(message,final_response):
+
+async def generate_tag(message, final_response):
     try:
         message_to_send = ""
         for key_f_res_se in final_response:
@@ -31,5 +33,19 @@ async def generate_tag(message,final_response):
 async def sanitize_text(input_text):
     sanitized_data = input_text.translate({ord(c): "-" for c in "+|"})
     sanitized_data = sanitized_data.translate({ord(c): "" for c in "™"})
-    sanitized_data = sanitized_data.replace("  ","")
+    sanitized_data = sanitized_data.replace("  ", " ")
     return sanitized_data
+
+
+async def sanitize_file_name(input_text):
+    sanitized_fileName = input_text.translate({ord(c): "" for c in "/\:*?\"<>|"})
+    return sanitized_fileName;
+
+
+async def getMediaAttributes(message):
+    if (isinstance(message, pyrogram.Message)):
+        for kind in ("audio", "document", "photo", "sticker", "animation", "video", "voice", "video_note"):
+            media = getattr(message, kind, None)
+            if media is not None:
+                break
+        return media

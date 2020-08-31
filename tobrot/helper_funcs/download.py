@@ -5,7 +5,7 @@
 # the logging things
 import logging
 
-from tobrot.helper_funcs.utils import sanitize_text
+from tobrot.helper_funcs.utils import sanitize_text, getMediaAttributes, sanitize_file_name
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -38,11 +38,27 @@ async def down_load_media_f(client, message):
     user_id = message.from_user.id
     print(user_id)
     mess_age = await message.reply_text("...", quote=True)
+    # raise ValueError("test")
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
     if message.reply_to_message is not None:
         start_t = datetime.now()
-        download_location = DOWNLOAD_LOCATION + "/"
+        file_name = None
+        media_attr = await getMediaAttributes(message.reply_to_message)
+        if media_attr is not None and media_attr.file_name is not None:
+            file_name = await sanitize_file_name(media_attr.file_name)
+        if len(message.command) > 1:
+            txt = " ".join(message.command)
+            if txt.find("rename") > -1 and len(txt[txt.find("rename") + 7:]) > 0:
+                file_name = txt[txt.find("rename") + 7:]
+                file_name = await sanitize_file_name(file_name)
+                file_name = await sanitize_text(file_name)
+            if media_attr is not None and media_attr.file_name is not None:
+                file_name = file_name+Path(media_attr.file_name).suffix
+        if file_name is None:
+            file_name = ""
+
+        download_location = DOWNLOAD_LOCATION + "/" + file_name
         c_time = time.time()
         the_real_download_location = await client.download_media(
             message=message.reply_to_message,
@@ -68,14 +84,6 @@ async def down_load_media_f(client, message):
                 file_upload = await unrar_me(the_real_download_location_g)
             elif message.command[1] == "untar":
                 file_upload = await untar_me(the_real_download_location_g)
-            elif txt.find("rename") > -1 and len(txt[txt.find("rename") + 7:]) > 0:
-                file_name = txt[txt.find("rename") + 7:]
-                file_name= await sanitize_text(file_name)
-                file_upload = file_name + Path(the_real_download_location_g).suffix
-                os.rename(the_real_download_location_g, file_upload)
-                LOGGER.info(the_real_download_location_g)
-                LOGGER.info(file_upload)
-                await mess_age.edit_text(f"Renamed to <code>{file_upload}</code>")
             else:
                 file_upload = the_real_download_location_g
 
