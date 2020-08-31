@@ -5,6 +5,7 @@
 # the logging things
 import logging
 import math
+import urllib
 
 from tobrot.helper_funcs import gplink_generator
 from tobrot.helper_funcs.utils import sanitize_text
@@ -20,10 +21,8 @@ import asyncio
 import pyrogram
 import os
 import time
-import subprocess
 import re
 from hurry.filesize import size
-import requests
 import shutil
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
@@ -32,7 +31,6 @@ from tobrot.helper_funcs.display_progress import progress_for_pyrogram, humanbyt
 from tobrot.helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
 from tobrot.helper_funcs.split_large_files import split_large_files
 from tobrot.helper_funcs.copy_similar_file import copy_file
-from requests.utils import requote_uri
 from pathlib import Path
 
 from tobrot import (
@@ -201,7 +199,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button.append([pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gau_link}")])
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{file_upload}"
-            tam_link = requests.utils.requote_uri(indexurl)
+            tam_link = urllib.parse.quote(indexurl)
             LOGGER.info(tam_link)
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ IndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
@@ -253,7 +251,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         button.append([pyrogram.InlineKeyboardButton(text="☁️ CloudUrl ☁️", url=f"{gau_link}")])
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{file_upload}/"
-            tam_link = requests.utils.requote_uri(indexurl)
+            tam_link = urllib.parse.quote(indexurl)
             LOGGER.info(tam_link)
             button.append([pyrogram.InlineKeyboardButton(text="ℹ️ IndexUrl ℹ️", url=f"{tam_link}")])
         button_markup = pyrogram.InlineKeyboardMarkup(button)
