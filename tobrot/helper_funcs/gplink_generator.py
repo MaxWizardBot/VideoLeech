@@ -7,6 +7,8 @@ from tobrot import LOGGER, GP_LINKS_API_KEY, CHANNEL_URL
 
 async def generate_gp_link(message,link,file_name):
     try:
+        # simple workaround for having plus in url as GP links replacing + with a space
+        link=link.replace('+', '%2B')
         data = await get_shortlink(link)
         if not data["status"] == "error":
             caption_str ='';
