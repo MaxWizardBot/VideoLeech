@@ -150,7 +150,7 @@ async def incoming_gdrive_message_f(client, message):
             os.makedirs(new_download_location)
         await i_m_sefg.edit_text("trying to download")
         # try to download the "link"
-        await call_apropriate_function_g(
+        downloaded_file = await call_apropriate_function_g(
             aria_i_p,
             dl_url,
             new_download_location,
@@ -162,6 +162,7 @@ async def incoming_gdrive_message_f(client, message):
             is_untar,
             message
         )
+        return downloaded_file
     else:
         await i_m_sefg.edit_text(
             "**FCUK**! wat have you entered. \nPlease read /help \n"
@@ -325,3 +326,19 @@ async def gp_link_generate(client, message):
             await generate_gp_link(message, url_to_shorten, None)
     else:
         await message.reply_text(f"Please enter URL to shorten Ex:/{GP_LINKS_COMMAND} https://google.com")
+
+
+async def incoming_gdrive_and_tg_message_f(client,message):
+    download_loc = await incoming_gdrive_message_f(client, message)
+    response = {}
+    LOGGER.info(response)
+    user_id = message.from_user.id
+    print(user_id)
+    final_response = await upload_to_tg(
+        message,
+        f'/app/{download_loc}',
+        user_id,
+        response
+    )
+    LOGGER.info(final_response)
+    await utils.generate_tag(message, final_response)

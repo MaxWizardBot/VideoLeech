@@ -355,6 +355,7 @@ async def call_apropriate_function_g(
             user_message,
             user_id
         )
+    return to_upload_file
 #
 async def call_apropriate_function_t(
     to_upload_file_g,
