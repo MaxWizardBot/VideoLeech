@@ -25,8 +25,8 @@ from tobrot import (
     DOWNLOAD_LOCATION,
     SPLIT_COMMAND,
     RENAME_COMMAND,
-    GP_LINKS_COMMAND
-)
+    GP_LINKS_COMMAND,
+    TG_MAX_FILE_SIZE)
 
 import time
 import aria2p
@@ -330,15 +330,18 @@ async def gp_link_generate(client, message):
 
 async def incoming_gdrive_and_tg_message_f(client,message):
     download_loc = await incoming_gdrive_message_f(client, message)
-    response = {}
-    LOGGER.info(response)
-    user_id = message.from_user.id
-    print(user_id)
-    final_response = await upload_to_tg(
-        message,
-        f'/app/{download_loc}',
-        user_id,
-        response
-    )
-    LOGGER.info(final_response)
-    await utils.generate_tag(message, final_response)
+    if os.path.getsize(download_loc) < TG_MAX_FILE_SIZE:
+        response = {}
+        LOGGER.info(response)
+        user_id = message.from_user.id
+        print(user_id)
+        final_response = await upload_to_tg(
+            message,
+            f'/app/{download_loc}',
+            user_id,
+            response
+        )
+        LOGGER.info(final_response)
+        await utils.generate_tag(message, final_response)
+    else:
+        await message.reply_text(f"File size is greater than 2GB So upload to Telegarm is stopped for gtleech command")
