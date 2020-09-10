@@ -10,6 +10,7 @@ from tobrot.helper_funcs import utils
 from tobrot.helper_funcs.gplink_generator import generate_gp_link
 from tobrot.helper_funcs.split_large_files import split_file_to_parts_or_by_start_end_seconds
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg
+from tobrot.helper_funcs.utils import sanitize_file_name, sanitize_text
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -129,10 +130,18 @@ async def incoming_gdrive_message_f(client, message):
             is_unrar = True
         elif message.command[1] == "untar":
             is_untar = True
+    txt = " ".join(message.command)
+    c_file_name = None
+    if txt.find("rename") > -1 and len(txt[txt.find("rename") + 7:]) > 0:
+        c_file_name = txt[txt.find("rename") + 7:]
+        c_file_name = await sanitize_file_name(c_file_name)
+        c_file_name = await sanitize_text(c_file_name)
     # get link from the incoming message
     dl_url, cf_name, _, _ = await extract_link(message.reply_to_message, "GLEECH")
     LOGGER.info(dl_url)
     LOGGER.info(cf_name)
+    if cf_name is None and c_file_name is not None:
+        cf_name = c_file_name
     if dl_url is not None:
         await i_m_sefg.edit_text("extracting links")
         # start the aria2c daemon
